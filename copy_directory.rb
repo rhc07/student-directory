@@ -20,11 +20,21 @@ puts "The students of Villains Academy"
 puts  "-------------"
 end
 
+
 def print(students)
   students.each_with_index do|(student), index|
-    puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+     puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+end
+
+puts "Students name beginning with: (Please enter a letter)"
+letter = gets.chomp
+students.each do |student|
+  if student[:name].start_with?(letter.upcase, letter.downcase)
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
+end
+
 
 def print_footer(students)
    puts "Overall, we have #{students.count} great students."
