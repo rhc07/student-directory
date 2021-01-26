@@ -21,14 +21,17 @@ puts  "-------------"
 end
 
 def print(students)
-  students.each_with_index do|(student), index|
-     puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+i = 0
+while i < students.count do
+  puts " #{i + 1}: #{students[i][:name]} (#{students[i][:cohort]} cohort)"
+i += 1
 end
 
 puts "Students name beginning with: (Please enter a letter)"
 letter = gets.chomp
 puts "Names with maximum characters: (Please enter a number)"
 max_length = gets.chomp
+
 number_of_matches = 0
  students.each do |student|
   if student[:name].start_with?(letter.upcase, letter.downcase)

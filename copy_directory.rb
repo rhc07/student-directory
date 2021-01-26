@@ -22,9 +22,11 @@ end
 
 
 def print(students)
-  students.each_with_index do|(student), index|
-     puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
-end
+     i = 0
+     while i < students.count
+       puts "#{i + 1}: #{students[i][:name]} (#{students[i][:cohort]})"
+       i += 1
+     end
 
 puts "Students name beginning with: (Please enter a letter)"
 letter = gets.chomp
@@ -40,7 +42,7 @@ number_of_matches = 0
   end
  end
  puts "We have #{number_of_matches} names that begin with #{letter}."
- puts "We have #{number_of_matches} names with #{max_length} characters." 
+ puts "We have #{number_of_matches} names with #{max_length} characters."
 end
 
 
