@@ -1,17 +1,51 @@
+def create_student
+  puts "Would you like to add a student to the system? (y/n)"
+  continue = gets.chomp
+    if continue == "y"
+      return true
+    elsif continue == "n"
+      return false
+    else
+      "Invalid choice"
+    end
+  create_student
+end
+
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
 
   students = []
+  continue = create_student
+  while continue == true do
+
+  puts "Please enter the name of the student"
   name = gets.chomp
 
-  while !name.empty? do
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
-    name = gets.chomp
+  puts "please enter the country of birth"
+  country_of_birth = gets.chomp
+
+  puts "please enter student height(cm)"
+  height = gets.chomp
+
+  hobbies = add_hobbies
+
+  students << { name: name, cohort: :november, country_of_birth: country_of_birth, height: height, hobbies: hobbies}
+     puts "Now we have #{students.count} students"
+     continue = create_student
   end
  students
+end
+
+def add_hobbies
+hobbies = []
+  puts "Please enter student's hobbies"
+  puts "To finish, just hit return twice"
+  hobby = gets.chomp
+  while !hobby.empty?
+    hobbies << hobby
+    hobby = gets.chomp
+  end
+  hobbies
 end
 
 
@@ -22,25 +56,29 @@ end
 
 
 def print(students)
-     i = 0
-     while i < students.count
-       puts "#{i + 1}: #{students[i][:name]} (#{students[i][:cohort]})"
-       i += 1
+     index = 0
+     while index < students.count
+       puts "#{index + 1}: #{students[index][:name]}, #{students[index][:country_of_birth]}, (#{students[index][:height]}cm), (#{students[index][:cohort]} cohort), (hobbies: #{students[index][:hobbies]})"
+       index += 1
      end
+end
 
-puts "Students name beginning with: (Please enter a letter)"
-letter = gets.chomp
-puts "Names with maximum characters: (Please enter a number)"
-max_length = gets.chomp
-number_of_matches = 0
- students.each do |student|
-  if student[:name].start_with?(letter.upcase, letter.downcase)
-   if student[:name].length <= max_length.to_i
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  number_of_matches += 1
+
+def print_by_character(students)
+  puts "Students name beginning with: (Please enter a letter)"
+  letter = gets.chomp
+  puts "Names with maximum characters: (Please enter a number)"
+  max_length = gets.chomp
+
+  number_of_matches = 0
+  students.each do |student|
+    if student[:name].start_with?(letter.upcase, letter.downcase)
+     if student[:name].length <= max_length.to_i
+       puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)"
+       number_of_matches += 1
+     end
+    end
    end
-  end
- end
  puts "We have #{number_of_matches} names that begin with #{letter}."
  puts "We have #{number_of_matches} names with #{max_length} characters."
 end
@@ -54,4 +92,5 @@ students = input_students
 
 print_header
 print(students)
+print_by_character(students)
 print_footer(students)
