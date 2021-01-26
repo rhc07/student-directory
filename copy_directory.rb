@@ -58,7 +58,7 @@ end
 def print(students)
      index = 0
      while index < students.count
-       puts "#{index + 1}: #{students[index][:name]}, #{students[index][:country_of_birth]}, (#{students[index][:height]}cm), (#{students[index][:cohort]} cohort), (hobbies: #{students[index][:hobbies]})"
+       puts "#{index + 1}: #{students[index][:name]}, #{students[index][:country_of_birth]}, (#{students[index][:height]}cm), (#{students[index][:cohort]} cohort), (hobbies: #{students[index][:hobbies]})".center(75, "----")
        index += 1
      end
 end
