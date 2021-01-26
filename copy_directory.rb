@@ -28,11 +28,19 @@ end
 
 puts "Students name beginning with: (Please enter a letter)"
 letter = gets.chomp
-students.each do |student|
+puts "Names with maximum characters: (Please enter a number)"
+max_length = gets.chomp
+number_of_matches = 0
+ students.each do |student|
   if student[:name].start_with?(letter.upcase, letter.downcase)
+   if student[:name].length <= max_length.to_i
     puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  number_of_matches += 1
+   end
   end
-end
+ end
+ puts "We have #{number_of_matches} names that begin with #{letter}."
+ puts "We have #{number_of_matches} names with #{max_length} characters." 
 end
 
 
