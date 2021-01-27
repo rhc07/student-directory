@@ -1,4 +1,13 @@
 
+def pluralize_students(n)
+  if n == 1
+    "#{n} great student"
+  elsif n > 1
+    "#{n} great students"
+  end
+end
+
+
 @width = 75
 @students = []
 
@@ -97,7 +106,8 @@ def input_students
   hobbies = add_hobbies
 
   @students << { name: name, cohort: cohort.to_sym, country_of_birth: country_of_birth, height: height, hobbies: hobbies}
-     puts "Now we have #{@students.count} students".center(@width)
+
+     puts "Now we have #{pluralize_students @students.count}.".center(@width)
      continue = create_student
   end
  @students
@@ -147,33 +157,45 @@ def print_by_cohort(students)
 end
 
 
-def print_by_character(students)
+def print_by_first_letter(students)
 puts "Students name beginning with: (Please enter a letter)".center(@width)
   letter = gets.chomp
-puts "Names with maximum characters: (Please enter a number)".center(@width)
-  max_length = gets.chomp
 
   number_of_matches = 0
-  students.each do |student|
+  @students.each do |student|
     if student[:name].start_with?(letter.upcase, letter.downcase)
-     if student[:name].length <= max_length.to_i
+
        puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)".center(@width)
        number_of_matches += 1
      end
     end
+puts "We have #{pluralize_students number_of_matches} whose name begins with #{letter}.".center(@width)
+end
+
+
+def print_by_name_length(students)
+  puts "Names with maximum characters: (Please enter a number)".center(@width)
+    max_length = gets.chomp
+
+ number_of_matches = 0
+ @students.each do |student|
+   if student[:name].length <= max_length.to_i
+     puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)".center(@width)
+     number_of_matches += 1
    end
-puts "We have #{number_of_matches} names that begin with #{letter}.".center(@width)
-puts "We have #{number_of_matches} names with #{max_length} characters.".center(@width)
+  end
+  puts "We have #{pluralize_students number_of_matches} with a name of #{max_length} characters.".center(@width)
 end
 
 
 def print_footer(students)
-   puts "Overall, we have #{students.count} great students.".center(@width)
+   puts "Overall, we have #{pluralize_students @students.count}.".center(@width)
 end
 
 @students = input_students
 print_header
 print_student_list(@students)
 print_by_cohort(@students)
-print_by_character(@students)
+print_by_first_letter(@students)
+print_by_name_length(@students)
 print_footer(@students)
