@@ -38,10 +38,10 @@ def add_cohort
   @cohorts.each do |month, vacancies|
     puts "#{month} - vacancies: #{vacancies}"
   end
+
   puts " "
   puts "Please enter the month of the cohort you'd like to join:"
   cohort = gets.chomp
-
   case cohort
   when "January"
     puts "January is full, you have been placed in February cohort."
@@ -122,19 +122,35 @@ puts  "-------------".center(@width)
 end
 
 
-def print(students)
-     index = 0
-     while index < @students.count
-       puts "#{index + 1}: #{@students[index][:name]}, #{@students[index][:country_of_birth]}, (#{@students[index][:height]}cm), (#{@students[index][:cohort]} cohort), (hobbies: #{@students[index][:hobbies]})".center(@width)
-     index += 1
-     end
+def print_student_list(students)
+index = 0
+  while index < @students.count
+    puts "#{index + 1}: #{@students[index][:name]}, #{@students[index][:country_of_birth]}, (#{@students[index][:height]}cm), (#{@students[index][:cohort]} cohort), (hobbies: #{@students[index][:hobbies]})".center(@width)
+    index += 1
+  end
+end
+
+def print_by_cohort(students)
+ if @students.empty?
+   puts "No students avaialble"
+ else
+   cohorts = @students.map do |student|
+     student[:cohort]
+   end
+   cohorts.uniq.each do |cohort|
+     puts "#{cohort} cohort".upcase.center(@width)
+      @students.each do |student|
+        puts student[:name] if student[:cohort] == cohort
+      end
+    end
+  end
 end
 
 
 def print_by_character(students)
-  puts "Students name beginning with: (Please enter a letter)".center(@width)
+puts "Students name beginning with: (Please enter a letter)".center(@width)
   letter = gets.chomp
-  puts "Names with maximum characters: (Please enter a number)".center(@width)
+puts "Names with maximum characters: (Please enter a number)".center(@width)
   max_length = gets.chomp
 
   number_of_matches = 0
@@ -146,8 +162,8 @@ def print_by_character(students)
      end
     end
    end
- puts "We have #{number_of_matches} names that begin with #{letter}.".center(@width)
- puts "We have #{number_of_matches} names with #{max_length} characters.".center(@width)
+puts "We have #{number_of_matches} names that begin with #{letter}.".center(@width)
+puts "We have #{number_of_matches} names with #{max_length} characters.".center(@width)
 end
 
 
@@ -156,8 +172,8 @@ def print_footer(students)
 end
 
 @students = input_students
-
 print_header
-print(@students)
+print_student_list(@students)
+print_by_cohort(@students)
 print_by_character(@students)
 print_footer(@students)
