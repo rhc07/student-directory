@@ -3,7 +3,8 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Find student by first letter"
+  puts "3. Save the list to students.csv"
+  puts "4. Find student by first letter"
   puts "9. Exit"
 end
 
@@ -27,6 +28,8 @@ def process(selection)
      when "2"
        show_students
      when "3"
+       save_students
+     when "4"
        print_by_first_letter
      when "9"
        exit
@@ -99,10 +102,20 @@ def print_by_first_letter
 puts "We have #{number_of_matches} whose name begins with #{letter}."
 end
 
-
 def print_footer
    puts "Overall, we have #{@students.count} great students."
 end
 
+def save_students
+  #open file for writing
+  file = File.open("students.csv", "w")
+  #iterate over the array of Students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+end
 
 interactive_menu
