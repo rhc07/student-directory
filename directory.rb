@@ -1,3 +1,28 @@
+def interactive_menu
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+
+    selection = gets.chomp
+     case selection
+     when "1"
+       students = input_students
+     when "2"
+       print_header
+       print(students)
+       print_footer(students)
+     when "9"
+       exit
+     else
+       puts "I don't know what you meant, try again"
+    end
+ end
+end
+
+
+
 
 def input_students
   puts "Please enter the names of the students"
@@ -21,10 +46,10 @@ puts  "-------------"
 end
 
 def print(students)
-i = 0
-while i < students.count do
-  puts " #{i + 1}: #{students[i][:name]} (#{students[i][:cohort]} cohort)"
-i += 1
+index = 0
+while index < students.count do
+  puts " #{index + 1}: #{students[index][:name]} (#{students[index][:cohort]} cohort)"
+index += 1
 end
 
 puts "Students name beginning with: (Please enter a letter)"
@@ -49,8 +74,7 @@ def print_footer(students)
    puts "Overall, we have #{students.count} great students."
 end
 
-students = input_students
-
+interactive_menu
 print_header
 print(students)
 print_footer(students)
