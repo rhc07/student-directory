@@ -29,7 +29,7 @@ end
 
 def create_student
   puts "Would you like to add a student to the system? (y/n)".center(@width)
-  continue = gets.chomp
+  continue = gets.strip
     if continue == "y"
       return true
     elsif continue == "n"
@@ -50,7 +50,7 @@ def add_cohort
 
   puts " "
   puts "Please enter the month of the cohort you'd like to join:"
-  cohort = gets.chomp
+  cohort = gets.strip
   case cohort
   when "January"
     puts "January is full, you have been placed in February cohort."
@@ -101,7 +101,7 @@ def input_students
   country_of_birth = gets.chomp
 
   puts "Please enter student height(cm)".center(@width)
-  height = gets.chomp
+  height = gets.chop
 
   hobbies = add_hobbies
 
@@ -117,7 +117,7 @@ def add_hobbies
 hobbies = []
   puts "Please enter student's hobbies".center(@width)
   puts "To finish, just hit return twice".center(@width)
-  hobby = gets.chomp
+  hobby = gets.chop
   while !hobby.empty?
     hobbies << hobby
     hobby = gets.chomp
@@ -159,7 +159,7 @@ end
 
 def print_by_first_letter(students)
 puts "Students name beginning with: (Please enter a letter)".center(@width)
-  letter = gets.chomp
+  letter = gets.strip
 
   number_of_matches = 0
   @students.each do |student|
@@ -175,7 +175,7 @@ end
 
 def print_by_name_length(students)
   puts "Names with maximum characters: (Please enter a number)".center(@width)
-    max_length = gets.chomp
+    max_length = gets.strip
 
  number_of_matches = 0
  @students.each do |student|
