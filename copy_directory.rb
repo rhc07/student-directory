@@ -8,7 +8,7 @@ def pluralize_students(n)
 end
 
 
-@width = 75
+@width = 60
 @students = []
 
 @cohorts = {
@@ -35,7 +35,7 @@ def create_student
     elsif continue == "n"
       return false
     else
-      "Invalid choice"
+      "Invalid choice - please enter (y/n)."
     end
   create_student
 end
@@ -127,22 +127,31 @@ end
 
 
 def print_header
-puts "The students of Villains Academy".center(@width)
-puts  "-------------".center(@width)
+
+  if !@students.empty?
+    puts "The students of Villains Academy".center(@width)
+    puts  "-------------".center(@width)
+  else
+    puts "No students available."
+  end
 end
 
 
 def print_student_list(students)
-index = 0
-  while index < @students.count
-    puts "#{index + 1}: #{@students[index][:name]}, #{@students[index][:country_of_birth]}, (#{@students[index][:height]}cm), (#{@students[index][:cohort]} cohort), (hobbies: #{@students[index][:hobbies]})".center(@width)
-    index += 1
-  end
+  if students.empty?
+    puts "No students available.".center(@width)
+  else
+    index = 0
+    while index < @students.count
+      puts "#{index + 1}: #{@students[index][:name]}, #{@students[index][:country_of_birth]}, (#{@students[index][:height]}cm), (#{@students[index][:cohort]} cohort), (hobbies: #{@students[index][:hobbies]})".center(@width)
+      index += 1
+    end
+   end
 end
 
 def print_by_cohort(students)
  if @students.empty?
-   puts "No students avaialble"
+   puts "No students avaialble.".center(@width)
  else
    cohorts = @students.map do |student|
      student[:cohort]
@@ -158,38 +167,48 @@ end
 
 
 def print_by_first_letter(students)
-puts "Students name beginning with: (Please enter a letter)".center(@width)
-  letter = gets.strip
 
-  number_of_matches = 0
-  @students.each do |student|
-    if student[:name].start_with?(letter.upcase, letter.downcase)
-
-       puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)".center(@width)
-       number_of_matches += 1
-     end
+  if students.empty?
+    puts "No students available.".center(@width)
+  else
+    puts "Students name beginning with: (Please enter a letter)".center(@width)
+    letter = gets.strip
+    number_of_matches = 0
+    @students.each do |student|
+      if student[:name].start_with?(letter.upcase, letter.downcase)
+         puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)".center(@width)
+         number_of_matches += 1
+      end
     end
+  end
 puts "We have #{pluralize_students number_of_matches} whose name begins with #{letter}.".center(@width)
 end
 
 
 def print_by_name_length(students)
-  puts "Names with maximum characters: (Please enter a number)".center(@width)
+  if students.empty?
+    puts "No students available.".center(@width)
+  else
+    puts "Names with maximum characters: (Please enter a number)".center(@width)
     max_length = gets.strip
-
- number_of_matches = 0
- @students.each do |student|
-   if student[:name].length <= max_length.to_i
-     puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)".center(@width)
-     number_of_matches += 1
-   end
+    number_of_matches = 0
+    @students.each do |student|
+       if student[:name].length <= max_length.to_i
+         puts "#{student[:name]}, #{student[:country_of_birth]} (#{student[:cohort]} cohort)".center(@width)
+         number_of_matches += 1
+       end
+    end
   end
-  puts "We have #{pluralize_students number_of_matches} with a name of #{max_length} characters.".center(@width)
+puts "We have #{pluralize_students number_of_matches} with a name of #{max_length} characters.".center(@width)
 end
 
 
 def print_footer(students)
+  if !@students.empty?
    puts "Overall, we have #{pluralize_students @students.count}.".center(@width)
+ else
+   puts "No students avaialble.".center(@width)
+ end
 end
 
 @students = input_students
