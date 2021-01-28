@@ -4,7 +4,8 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "4. Find student by first letter"
+  puts "4. Load the list from stduents.csv"
+  puts "5. Find student by first letter"
   puts "9. Exit"
 end
 
@@ -30,6 +31,8 @@ def process(selection)
      when "3"
        save_students
      when "4"
+       load_students
+     when "5"
        print_by_first_letter
      when "9"
        exit
@@ -117,5 +120,15 @@ def save_students
   end
   file.close
 end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+  name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
 
 interactive_menu
