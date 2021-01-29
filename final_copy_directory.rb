@@ -141,16 +141,16 @@ end
 def save_students(filename = @default_filename)
   puts "Please enter the filename."
   filename = gets.chomp
-  file = File.open(filename, "w")
+  file = File.open(filename, "w") do |file|
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
-  file.close
   puts ""
   puts "Students successfully saved in #{filename}."
   puts ""
+end
 end
 
 def load_file_preference
@@ -161,15 +161,15 @@ def load_file_preference
 end
 
 def load_students(filename = @default_filename)
-  file = File.open(filename, "r")
+  file = File.open(filename, "r")do |file|
   file.readlines.each do |line|
   name, cohort = line.chomp.split(",")
     add_student(name, cohort)
   end
-  file.close
   puts
   puts "Students successfully loaded from #{filename}."
   puts
+end
 end
 
 
