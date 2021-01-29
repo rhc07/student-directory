@@ -1,6 +1,18 @@
 @students = []
+@loaded_filename = ""
+@default_filename = "students.csv"
+
+def header_menu
+  divider
+  puts "---- Student Directory ----"
+  puts "-- Using file: #{@default_filename}."
+  divider
+end
+
 
 def print_menu
+  header_menu
+  puts "---- MAIN MENU ----"
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
@@ -44,9 +56,7 @@ end
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-
-  name = STDIN.gets.chomp
-  cohort = :November
+  name, cohort = STDIN.gets.chomp, :November
   while !name.empty? do
     add_student(name, cohort)
     puts "Now we have #{@students.count} students"
@@ -54,9 +64,13 @@ def input_students
   end
 end
 
+def divider
+  puts  "-------------".center(28)
+end
+
 def print_header
 puts "The students of Villains Academy"
-puts  "-------------"
+divider
 end
 
 
@@ -74,8 +88,7 @@ def print_by_name_length
     puts "No students available."
   else
     puts "Names with maximum characters: (Please enter a number)"
-    max_length = gets.strip
-    number_of_matches = 0
+    max_length, number_of_matches = gets.strip, 0
     @students.each do |student|
        if student[:name].length <= max_length.to_i
          puts "#{student[:name]}, (#{student[:cohort]} cohort)".
@@ -93,8 +106,7 @@ def print_by_first_letter
     puts "No students available."
   else
     puts "Students name beginning with: (Please enter a letter)"
-    letter = gets.strip
-    number_of_matches = 0
+    letter, number_of_matches = gets.strip, 0
     @students.each do |student|
       if student[:name].start_with?(letter.upcase, letter.downcase)
          puts "#{student[:name]}, (#{student[:cohort]} cohort)"
@@ -127,7 +139,7 @@ def save_students
   puts "Students successfully saved."
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename = @default_filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(",")
@@ -140,9 +152,14 @@ end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
-  if File.exists?(filename)
-    load_students(filename)
+    if filename.nil?
+      puts
+      puts "Loaded the default file: #{@default_filename}"
+      puts
+      load_students
+    elsif File.exists?(filename)
+      @loaded_filename = filename
+      load_students(filename)
     puts "Loaded #{@students.count} from #{filename}."
   else
     puts "Sorry, #{filename} doesn't exist."
