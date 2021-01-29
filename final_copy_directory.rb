@@ -5,7 +5,7 @@
 def header_menu
   divider
   puts "---- Student Directory ----"
-  puts "-- Using file: #{@default_filename}."
+  puts "-- Using file: #{@loaded_filename}."
   divider
 end
 
@@ -15,8 +15,8 @@ def print_menu
   puts "---- MAIN MENU ----"
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from stduents.csv"
+  puts "3. Save the list to file"
+  puts "4. Load the list from file"
   puts "5. Find student by first letter"
   puts "9. Exit"
 end
@@ -41,9 +41,9 @@ def process(selection)
      when "2"
        show_students
      when "3"
-       save_students
+       save_file_preference
      when "4"
-       load_students
+       load_file_preference
      when "5"
        print_by_first_letter
      when "9"
@@ -75,10 +75,14 @@ end
 
 
 def print_student_list
-  index = 0
-  while index < @students.count do
-    puts " #{index + 1}: #{@students[index][:name]} (#{@students[index][:cohort]} cohort)"
-    index += 1
+  if @students.empty?
+    puts "No students available."
+  else
+    index = 0
+    while index < @students.count do
+      puts " #{index + 1}: #{@students[index][:name]} (#{@students[index][:cohort]} cohort)"
+      index += 1
+    end
   end
 end
 
@@ -128,15 +132,32 @@ def add_student(name, cohort)
 end
 
 
-def save_students
-  file = File.open("students.csv", "w")
+def save_file_preference
+  puts "Please enter the name of the file"
+  filename = gets.chomp
+  filename.empty? ? save_students : save_students(filename)
+end
+
+def save_students(filename = @default_filename)
+  puts "Please enter the filename."
+  filename = gets.chomp
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
-  puts "Students successfully saved."
+  puts ""
+  puts "Students successfully saved in #{filename}."
+  puts ""
+end
+
+def load_file_preference
+  puts "Please select a file."
+  puts "Hit return twice to load the default file, students.csv."
+  filename = gets.chomp
+  filename.empty? ? load_students : load_students(filename)
 end
 
 def load_students(filename = @default_filename)
@@ -146,7 +167,9 @@ def load_students(filename = @default_filename)
     add_student(name, cohort)
   end
   file.close
-  puts "Students successfully loaded."
+  puts
+  puts "Students successfully loaded from #{filename}."
+  puts
 end
 
 
@@ -156,15 +179,16 @@ def try_load_students
       puts
       puts "Loaded the default file: #{@default_filename}"
       puts
+      @loaded_filename = @default_filename
       load_students
     elsif File.exists?(filename)
       @loaded_filename = filename
       load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}."
-  else
-    puts "Sorry, #{filename} doesn't exist."
-    exit
+    else
+      puts "Sorry, #{filename} doesn't exist."
+      exit
   end
 end
 
+try_load_students
 interactive_menu
