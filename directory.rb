@@ -4,7 +4,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "4. Load the list from stduents.csv"
+  puts "4. Load the list from students.csv"
   puts "5. Find student by first letter"
   puts "9. Exit"
 end
@@ -46,9 +46,9 @@ def input_students
   puts "To finish, just hit return twice"
 
   name = STDIN.gets.chomp
-
+  cohort = :November
   while !name.empty? do
-    @students << {name: name, cohort: :november}
+    @students << {name: name, cohort: cohort.to_sym}
     puts "Now we have #{@students.count} students"
     name = gets.chomp
   end
@@ -124,7 +124,7 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(",")
+  name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
@@ -143,4 +143,5 @@ def try_load_students
   end
 end
 
+try_load_students
 interactive_menu
